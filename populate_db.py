@@ -5,7 +5,8 @@
 
 import requests
 from bs4 import BeautifulSoup 
-import json
+from pymongo import MongoClient
+
 
 def get_publications(url):
     ''' Return list of publication urls found on input page '''
@@ -111,12 +112,19 @@ def main():
 
         # Parse data from publicaiton
         doc = parse_publication(publication_url)
-
-        # Append to list of docs
         docs.append(doc)
 
 
-    print(json.dumps(docs, indent=4))
+    # Create MongoDB client
+    connect_str = ""
+    client = MongoClient(connect_str)
+
+    # Set DB and collection
+    db = client["ISW"]
+    collection = db["Publications"]
+
+    # Insert docs into colleciton
+    collection.insert_many(docs)
 
 
 if __name__ == "__main__":
