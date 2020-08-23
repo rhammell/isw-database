@@ -1,2 +1,4 @@
 *.json
 *.pyc
+
+config.ini
