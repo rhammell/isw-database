@@ -98,9 +98,16 @@ def main():
 
     # Create MongoDB client with configured conneciton string
     connection_string = config['mongodb']['connection_string']
-    client = MongoClient(connection_string)
+    client = MongoClient(connection_string, serverSelectionTimeoutMS=5000)
 
-    # Get list of URLs to publication pages
+    # Test DB connection
+    try: 
+        client.server_info()
+    except:
+        print("MongoDB connection failed. Check configured connection string: {}".format(connection_string))
+        return
+
+    # Get list of ISW publications page urls
     base_url = 'http://www.understandingwar.org/publications'
     n_pages = 20
     page_urls = [base_url + '?page={}'.format(i) for i in range(1)]

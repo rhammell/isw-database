@@ -15,4 +15,9 @@ cd isw-database
 pip install -r requirements.txt
 ```
 
+Open the `config.ini` configuration file and replace `Your-Mongo-Connection-String` with the connection string of the MongoDB that will be used. If using a Mongo Atlas cloud database the string would resemble `mongodb+srv://<user>:<password>@cluster0.mrqo0.mongodb.net/`.
 
+```
+[mongodb]
+connection_string = Your-MongoDB-Connection-String
+```
