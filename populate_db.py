@@ -6,6 +6,7 @@
 import requests
 from bs4 import BeautifulSoup 
 from pymongo import MongoClient
+from configparser import ConfigParser()
 
 
 def get_publications(url):
@@ -91,6 +92,14 @@ def parse_publication(url):
 def main():
     ''' Process publications from the web and insert into database '''
 
+    # Read configuration file
+    config = ConfigParser()
+    config.read('config.ini')
+
+    # Create MongoDB client with configured conneciton string
+    connection_string = config['mongodb']['connection_string']
+    client = MongoClient(connection_str)
+
     # Get list of URLs to publication pages
     base_url = 'http://www.understandingwar.org/publications'
     n_pages = 20
@@ -114,16 +123,9 @@ def main():
         doc = parse_publication(publication_url)
         docs.append(doc)
 
-
-    # Create MongoDB client
-    connect_str = ""
-    client = MongoClient(connect_str)
-
-    # Set DB and collection
+    # Insert docs into Publications collection
     db = client["ISW"]
     collection = db["Publications"]
-
-    # Insert docs into colleciton
     collection.insert_many(docs)
 
 
