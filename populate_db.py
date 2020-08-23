@@ -128,6 +128,8 @@ def main():
     collection = db["Publications"]
     collection.insert_many(docs)
 
+    print('Processing complete.')
+
 
 if __name__ == "__main__":
 
