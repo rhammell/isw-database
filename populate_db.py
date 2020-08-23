@@ -6,7 +6,7 @@
 import requests
 from bs4 import BeautifulSoup 
 from pymongo import MongoClient
-from configparser import ConfigParser()
+from configparser import ConfigParser
 
 
 def get_publications(url):
@@ -98,7 +98,7 @@ def main():
 
     # Create MongoDB client with configured conneciton string
     connection_string = config['mongodb']['connection_string']
-    client = MongoClient(connection_str)
+    client = MongoClient(connection_string)
 
     # Get list of URLs to publication pages
     base_url = 'http://www.understandingwar.org/publications'
