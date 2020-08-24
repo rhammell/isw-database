@@ -113,10 +113,14 @@ def main():
         print("MongoDB connection failed. Check configured connection string: {}".format(connection_string))
         return
 
+    # Define database and publication to insert into
+    db = client["ISW"]
+    collection = db["Publications"]
+
     # Get list of ISW publications page urls
     base_url = 'http://www.understandingwar.org/publications'
     n_pages = 20
-    page_urls = [base_url + '?page={}'.format(i) for i in range(1)]
+    page_urls = [base_url + '?page={}'.format(i) for i in range(n_pages)]
 
     # Get list publication urls from pages
     publication_urls = []
@@ -126,25 +130,34 @@ def main():
 
         publication_urls.extend(get_publications(page_url))
 
-    # Initiate list of docs for db
-    docs = []
+    # Initialize number of docs inserted into DB
+    n_inserted = 0
 
-    # Loop through each publication 
+    # Loop through each publication url
     print(' ')
     for i, publication_url in enumerate(publication_urls): 
         print('Parsing publication {} of {}: {}'.format(i+1, len(publication_urls), publication_url))
 
-        # Parse data from publicaiton
+        # Parse data from publicaiton url
         doc = parse_publication(publication_url)
-        docs.append(doc)
+        
+        # Insert doc into collection - use update_one and upsert to prevent 
+        # creating duplicate entries in the DB
+        res = collection.update_one(
+            {'_id':doc['_id']}, 
+            {"$set": doc}, 
+            upsert=True
+        )
 
-    # Insert docs into Publications collection
-    db = client["ISW"]
-    collection = db["Publications"]
-    collection.insert_many(docs)
+        # Count successfully inserted docs
+        if res.upserted_id:
+            n_inserted += 1
+            print('  Successfully inserted into collection.')
+        else: 
+            print('  Already exists in collection. No insertion preformed.')
 
     print(' ')
-    print('Processing complete.')
+    print('Processing complete. {} new documents inserted into the DB.'.format(n_inserted))
 
 
 if __name__ == "__main__":
