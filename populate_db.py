@@ -102,7 +102,7 @@ def main():
     config = ConfigParser()
     config.read('config.ini')
 
-    # Create MongoDB client with configured conneciton string
+    # Create MongoDB client using configured conneciton string
     connection_string = config['mongodb']['connection_string']
     client = MongoClient(connection_string, serverSelectionTimeoutMS=5000)
 
@@ -113,11 +113,11 @@ def main():
         print("MongoDB connection failed. Check configured connection string: {}".format(connection_string))
         return
 
-    # Define database and publication to insert into
+    # Define database and collection to use
     db = client["ISW"]
     collection = db["Publications"]
 
-    # Get list of ISW publications page urls
+    # Get list of ISW page urls
     base_url = 'http://www.understandingwar.org/publications'
     n_pages = 20
     page_urls = [base_url + '?page={}'.format(i) for i in range(n_pages)]
