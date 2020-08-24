@@ -12,17 +12,22 @@ git clone https://github.com/rhammell/isw-database.git
 cd isw-database
 
 # Install required modules
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
-Open the `config.ini` configuration file and change the placeholder value `Your-Mongo-Connection-String` to the connection string of the MongoDB that will be used.
+Open the `config.ini` configuration file and change the placeholder value `Your-Mongo-Connection-String` to the connection string of the MongoDB that will be used. 
+
+Ex. `mongodb+srv://<user>:<password>@cluster0.mrqo0.mongodb.net/` if using a Mongo Atlas cloud database. 
 
 ```
 [mongodb]
 connection_string = Your-MongoDB-Connection-String
+database_name = ISW
+collection_name = Publications
 ```
 
-Ex. `mongodb+srv://<user>:<password>@cluster0.mrqo0.mongodb.net/` if using a Mongo Atlas cloud database. 
+The default database and collection names `ISW` and `Publicaitons` can be edited within this file. If the database and collection do not exist they will be automatically created in the configured MongoDB as documents are inserted. 
+
 
 ## Populating MongoDB
 
@@ -49,5 +54,3 @@ Each publication webpage is parsed to collect its text body and other metadata. 
     "content": "Iraq Situation Report: August 12-18, 2020 | Institute for the ..."
 }
 ```
-
-Documents are inserted into a `Publications` collection within a `ISW` database in the configured MongoDB. These will be programmatically created when documents are inserted if they do not already exist.

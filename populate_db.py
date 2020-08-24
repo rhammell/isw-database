@@ -115,8 +115,8 @@ def main(n_pages=20):
         return
 
     # Define database and collection to use
-    db = client["ISW"]
-    collection = db["Publications"]
+    db = client[config['mongodb']['database_name']]
+    collection = db[config['mongodb']['collection_name']]
 
     # Get list of ISW page urls
     base_url = 'http://www.understandingwar.org/publications'
