@@ -4,6 +4,7 @@
     Scrape publications from understandingwar.com and push data into a MongoDB.
 '''
 
+import sys
 import requests
 import hashlib
 from bs4 import BeautifulSoup 
@@ -95,7 +96,7 @@ def parse_publication(url):
     return data
 
 
-def main():
+def main(n_pages=20):
     ''' Process publications from the web and insert into database '''
 
     # Read configuration file
@@ -119,7 +120,6 @@ def main():
 
     # Get list of ISW page urls
     base_url = 'http://www.understandingwar.org/publications'
-    n_pages = 20
     page_urls = [base_url + '?page={}'.format(i) for i in range(n_pages)]
 
     # Get list publication urls from pages
@@ -163,7 +163,10 @@ def main():
 if __name__ == "__main__":
 
     # Run main function
-    main()
+    if len(sys.argv) == 2:
+      main(n_pages=int(sys.argv[1]))
+    else:
+      main()
 
 
 

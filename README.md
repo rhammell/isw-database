@@ -28,13 +28,17 @@ Ex. `mongodb+srv://<user>:<password>@cluster0.mrqo0.mongodb.net/` if using a Mon
 
 The `populate_db.py` script is used to scrape ISW publications and add them to the configured MongoDB. The script can be run at regular intervals to continually add the latest publication data to the database without creating duplicate entries.
 
-Run the script using the following command
+By default the latest 20 ISW search pages (10 publications per page) are scraped. This number can be controlled with an optional integer number passed into the run command. 
 
 ```bash
+# Run default 20 pages
 python3 populate_db.py
+
+# Run latest 10 pages
+python3 populate_db.py 10
 ```
 
-Each publication webpage is parsed to collect the text body and other publication metadata. Below is an example of the document structure for each publication added to the database. 
+Each publication webpage is parsed to collect its text body and other metadata. Below is an example of the document structure for each publication added to the database. 
 
 ```python
 {
@@ -46,4 +50,4 @@ Each publication webpage is parsed to collect the text body and other publicatio
 }
 ```
 
-Documents are inserted into a `Publications` collection within a `ISW` database within MongoDB. These will be programmatically created when documents are inserted if they do not already exist.
+Documents are inserted into a `Publications` collection within a `ISW` database in the configured MongoDB. These will be programmatically created when documents are inserted if they do not already exist.
