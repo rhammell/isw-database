@@ -69,7 +69,7 @@ def get_contents(soup):
 
 def parse_publication(url):
     ''' Parse the contents of a publication page and return the contents
-        and metadata as a dictionary. Augment data with NLP and geocoding. 
+        and metadata as a dictionary.
     '''
 
     # Initate output 
