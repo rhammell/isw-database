@@ -1,9 +1,11 @@
 ''' 
+    Python 3+
+
     Scrape publications from understandingwar.com and push data into a MongoDB.
-    Articles are augmented parsing names and geocoding locations.
 '''
 
 import requests
+import hashlib
 from bs4 import BeautifulSoup 
 from pymongo import MongoClient
 from configparser import ConfigParser
@@ -85,6 +87,10 @@ def parse_publication(url):
     data['date'] = get_date(soup)
     data['content'] = get_contents(soup)
 
+    # Generate unique id value - this will prevent duplicates being inserted
+    # into the DB when running this script repeatedly
+    ustring = data['title'] + data['date']
+    data['_id'] = hashlib.sha1(ustring.encode()).hexdigest()
 
     return data
 
@@ -114,6 +120,7 @@ def main():
 
     # Get list publication urls from pages
     publication_urls = []
+    print(' ')
     for i, page_url in enumerate(page_urls):
         print('Parsing page {} of {}: {}'.format(i+1, len(page_urls), page_url))
 
@@ -122,7 +129,8 @@ def main():
     # Initiate list of docs for db
     docs = []
 
-    # Loop through each publication
+    # Loop through each publication 
+    print(' ')
     for i, publication_url in enumerate(publication_urls): 
         print('Parsing publication {} of {}: {}'.format(i+1, len(publication_urls), publication_url))
 
@@ -135,6 +143,7 @@ def main():
     collection = db["Publications"]
     collection.insert_many(docs)
 
+    print(' ')
     print('Processing complete.')
 
 
