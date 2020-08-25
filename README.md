@@ -57,7 +57,7 @@ Each publication webpage is parsed to collect its text body and other metadata. 
 
 ## API Access
 
-The `app.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to get access the scraped publications data without direct connection to the database itself. 
+The `app.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to access the scraped publications data without direct connection to the database itself. 
 
 Initialize the API server using on the default host and port (`localhost:5000`) with the following command
 
@@ -67,13 +67,13 @@ python3 app.py
 
 The following endpoints are availble through the API: 
 
-- `GET /publications`: Get a list of all publications data
+- `GET /publications`: Get a list of all publications data ordered by `date` field
 
 - `GET /publicatins/<id>`: Get publication data of entry specified by `<id>`
 
-- `GET /publications/latest`: Get the 10 most recent publications ordered by 'date' 
+- `GET /publications/latest`: Get the 10 most recent publications ordered by `date` field
 
-- `POST /publications/search`: Get a list of publications that match an accepted JSON formatted MongoDB query
+- `POST /publications/search`: Get a list of publications that match a JSON formatted MongoDB query that is included in the request
 
 
 ### Usage
