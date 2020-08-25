@@ -141,7 +141,7 @@ data = r.json()
 
 # Print titles
 for publication in data['response']:
-    print(publication['date'])
+    print(publication['title'])
 ```
 
 
