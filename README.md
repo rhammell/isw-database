@@ -15,7 +15,7 @@ cd isw-database
 pip3 install -r requirements.txt
 ```
 
-Open the `config.ini` configuration file and change the placeholder value `Your-Mongo-Connection-String` to the connection string of the MongoDB that will be used. 
+Open the `config.ini` configuration file and change the placeholder value `Your-Mongo-Connection-String` to the connection string of the MongoDB instance that will be used. 
 
 Ex. `mongodb+srv://<user>:<password>@cluster0.mrqo0.mongodb.net/` if using a Mongo Atlas cloud database. 
 
@@ -54,3 +54,33 @@ Each publication webpage is parsed to collect its text body and other metadata. 
     "content": "Iraq Situation Report: August 12-18, 2020 | Institute for the ..."
 }
 ```
+
+## API Access
+
+The `app.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to get access the scraped publications data without direct connection to the database itself. 
+
+Initialize the API server using on the default host and port (`localhost:5000`) with the following command
+
+```bash
+python3 app.py
+```
+
+### Endpoints
+
+`GET /publications`: Returns a list of all publications data in the database
+
+`GET /publicatins/<id>`: Returns the database entry
+
+`GET /publications/latest`: Returns the 10 most recent publications ordered by their 'date' 
+
+`POST /publications/search`: Accepts a JSON formatted MongoDB query that is passed to the database.  
+
+
+### Examples
+
+
+
+
+
+
+
