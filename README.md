@@ -65,8 +65,6 @@ Initialize the API server using on the default host and port (`localhost:5000`) 
 python3 app.py
 ```
 
-Test the API by browsing to `http://localhost:5000/publications` to see publication data returned in the response.
-
 The following endpoints are availble through the API: 
 
 - `GET /publications`: Get a list of all publications data
@@ -85,6 +83,8 @@ Requests to the API can be make through Python using the `requests` module
 ```python
 import requests
 ```
+
+
 
 
 
