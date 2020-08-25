@@ -84,7 +84,7 @@ Requests to the API can be made from Python using the  `requests` module
 import requests
 ```
 
-Get a complete list of all the publications in database by using the `/publications` endpoint. The endpoint 
+Get a complete list of all the publications in database by using the `/publications` endpoint. The list is contained in the `response` field of the returned JSON.
 
 ```python
 # Make GET request
@@ -97,7 +97,7 @@ data = r.json()
 print(len(data['response']))
 ```
 
-Each entry in the database has a unique ID number associated with it. This ID can be used with the `/publications/<id>` endpoint to retrieve that specific publication. 
+Each entry in the database has a unique ID number associated with it. This ID can be used with the `/publications/<id>` endpoint to retrieve that specific publication. The document dictionary is contained in the `response` field of the returned JSON.
 
 ```python
 # Set ID
@@ -113,7 +113,7 @@ data = r.json()
 print(data['response']['title'])
 ```
 
-The `/publications/latest` endpoint allows for a quick way to retrieve the 10 latest publications that have been scraped
+The `/publications/latest` endpoint allows for a quick way to retrieve the 10 latest publications that have been scraped. The list of publications is contained in the `response` field of the returned JSON.
 
 ```python
 # Make GET request
@@ -134,7 +134,7 @@ The `/publications/search` endpoint accepts a JSON formatted MongoDB (query)[htt
 query = {}
 
 # Make request
-r = request.post('http://localhost:5000/publications/search', json={'query': query})
+r = requests.post('http://localhost:5000/publications/search', json={'query': query})
 
 # Get JSON response
 data = r.json()
