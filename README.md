@@ -57,9 +57,9 @@ Each publication webpage is parsed to collect its text body and other metadata. 
 
 ## API Access
 
-The `app.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to access the scraped publications data without direct connection to the database itself. 
+The `app.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to access the publications data without direct connection to the database itself. 
 
-Initialize the API server using on the default host and port (`localhost:5000`) with the following command
+Initialize the API server using on the default host and port `localhost:5000` with the following command
 
 ```bash
 python3 app.py
@@ -78,19 +78,71 @@ The following endpoints are availble through the API:
 
 ### Usage
 
-Requests to the API can be make through Python using the `requests` module
+Requests to the API can be made from Python using the  `requests` module
 
 ```python
 import requests
 ```
 
+Get a complete list of all the publications in database by using the `/publications` endpoint. The endpoint 
 
+```python
+# Make GET request
+r = requests.get('http://localhost:5000/publications')
 
+# Get JSON response
+data = r.json()
 
+# Total number of publications
+print(len(data['response']))
+```
 
+Each entry in the database has a unique ID number associated with it. This ID can be used with the `/publications/<id>` endpoint to retrieve that specific publication. 
 
+```python
+# Set ID
+doc_id = "2d687f992b57007814d359dd5db073bc11779071"
 
+# Make GET request
+r = requests.get('http://localhost:5000/publications/' + doc_id)
 
+# Get JSON response
+data = r.json()
+
+# Print title
+print(data['response']['title'])
+```
+
+The `/publications/latest` endpoint allows for a quick way to retrieve the 10 latest publications that have been scraped
+
+```python
+# Make GET request
+r = requests.get('http://localhost:5000/publications/latest')
+
+# Get JSON response
+data = r.json()
+
+# Print dates
+for publication in data['response']:
+    print(publication['date'])
+```
+
+The `/publications/search` endpoint accepts a JSON formatted MongoDB (query)[https://docs.mongodb.com/manual/tutorial/query-documents/] in a POST request. Complex queries can be structured to filter for any field, 
+
+```python
+# Create MongoDB query
+query = {}
+
+# Make request
+r = request.post('http://localhost:5000/publications/search', json={'query': query})
+
+# Get JSON response
+data = r.json()
+
+# Print dates
+for publication in data['response']:
+    print(publication['date'])
+```
 
 
 

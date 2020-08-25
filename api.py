@@ -90,7 +90,7 @@ class Search(Resource):
       for doc in cursor:
           data.append(doc)
 
-      return {"response": args}
+      return {"response": data}
 
 
 # Add resource endpoints
