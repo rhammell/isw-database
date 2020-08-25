@@ -84,7 +84,7 @@ Requests to the API can be made from Python using the  `requests` module
 import requests
 ```
 
-Get a complete list of all the publications in database by using the `/publications` endpoint. The list is contained in the `response` field of the returned JSON.
+Get a complete list of all the publications in database by using the `/publications` endpoint. The list data is contained in the `response` field of the returned JSON.
 
 ```python
 # Make GET request
@@ -97,7 +97,7 @@ data = r.json()
 print(len(data['response']))
 ```
 
-Each entry in the database has a unique ID number associated with it. This ID can be used with the `/publications/<id>` endpoint to retrieve that specific publication. The document dictionary is contained in the `response` field of the returned JSON.
+Each entry in the database has a unique ID number associated with it. This ID can be used with the `/publications/<id>` endpoint to retrieve that specific publication. The document data is contained in the `response` field of the returned JSON.
 
 ```python
 # Set ID
@@ -113,7 +113,7 @@ data = r.json()
 print(data['response']['title'])
 ```
 
-The `/publications/latest` endpoint allows for a quick way to retrieve the 10 latest publications that have been scraped. The list of publications is contained in the `response` field of the returned JSON.
+The `/publications/latest` endpoint allows for a quick way to retrieve a list the 10 latest publications that have been scraped. The list data is contained in the `response` field of the returned JSON.
 
 ```python
 # Make GET request
@@ -127,11 +127,11 @@ for publication in data['response']:
     print(publication['date'])
 ```
 
-The `/publications/search` endpoint accepts a JSON formatted MongoDB (query)[https://docs.mongodb.com/manual/tutorial/query-documents/] in a POST request. Complex queries can be structured to filter for any field, 
+The `/publications/search` endpoint accepts a JSON formatted MongoDB [query]([)https://docs.mongodb.com/manual/tutorial/query-documents/) in a POST request. This allows for more complex queries that can filter for any field and returns a list of any matching documents. The list data is contained in the `response` field of the returned JSON. 
 
 ```python
-# Create MongoDB query
-query = {}
+# Create MongoDB query to search for all documents with 'Iraq' the title
+query = {"title": {'$regex' : "Iraq"}}
 
 # Make request
 r = requests.post('http://localhost:5000/publications/search', json={'query': query})
@@ -139,7 +139,7 @@ r = requests.post('http://localhost:5000/publications/search', json={'query': qu
 # Get JSON response
 data = r.json()
 
-# Print dates
+# Print titles
 for publication in data['response']:
     print(publication['date'])
 ```
