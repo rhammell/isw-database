@@ -65,18 +65,28 @@ Initialize the API server using on the default host and port (`localhost:5000`) 
 python3 app.py
 ```
 
-### Endpoints
+Test the API by browsing to `http://localhost:5000/publications` to see publication data returned in the response.
 
-`GET /publications`: Returns a list of all publications data in the database
+The following endpoints are availble through the API: 
 
-`GET /publicatins/<id>`: Returns the database entry
+- `GET /publications`: Get a list of all publications data
 
-`GET /publications/latest`: Returns the 10 most recent publications ordered by their 'date' 
+- `GET /publicatins/<id>`: Get publication data of entry specified by `<id>`
 
-`POST /publications/search`: Accepts a JSON formatted MongoDB query that is passed to the database.  
+- `GET /publications/latest`: Get the 10 most recent publications ordered by 'date' 
+
+- `POST /publications/search`: Get a list of publications that match an accepted JSON formatted MongoDB query
 
 
-### Examples
+### Usage
+
+Requests to the API can be make through Python using the `requests` module
+
+```python
+import requests
+```
+
+
 
 
 
