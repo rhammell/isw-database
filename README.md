@@ -127,7 +127,7 @@ for publication in data['response']:
     print(publication['date'])
 ```
 
-The `/publications/search` endpoint accepts a JSON formatted MongoDB [query]([)https://docs.mongodb.com/manual/tutorial/query-documents/) in a POST request. This allows for more complex queries that can filter for any field and returns a list of any matching documents. The list data is contained in the `response` field of the returned JSON. 
+The `/publications/search` endpoint accepts a JSON formatted MongoDB [query](https://docs.mongodb.com/manual/tutorial/query-documents/) in a POST request. This allows for more complex queries that can filter for any field and returns a list of any matching documents. The list data is contained in the `response` field of the returned JSON. 
 
 ```python
 # Create MongoDB query to search for all documents with 'Iraq' the title
