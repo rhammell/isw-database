@@ -1,5 +1,5 @@
 Flask==1.1.1
-pymongo==3.11.0
+pymongo[srv]==3.11.0
 requests==2.24.0
 Flask_RESTful==0.3.8
 Flask_PyMongo==2.3.0
