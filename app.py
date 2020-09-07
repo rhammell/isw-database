@@ -1,26 +1,32 @@
 ''' Flask based HTTP endpoints for database access '''
 
+from flask import Flask
+from flask_restful import Api, Resource, reqparse
+from pymongo import MongoClient
 from configparser import ConfigParser
 
-from flask import Flask
-from flask_pymongo import PyMongo
-from flask_restful import Api, Resource, reqparse
 
-
-# Read MongoDB configuration settings
+# Read configuration file
 config = ConfigParser()
 config.read('config.ini')
+
+# Create MongoDB client using configured conneciton string
 connection_string = config['mongodb']['connection_string']
-database_name = config['mongodb']['database_name']
-collection_name = config['mongodb']['collection_name']
+client = MongoClient(connection_string, serverSelectionTimeoutMS=5000)
+
+# Test DB connection
+try: 
+    client.server_info()
+except:
+    print("MongoDB connection failed. Check configured connection string: {}".format(connection_string))
+    exit()
+
+# Define database and collection to use
+db = client[config['mongodb']['database_name']]
+collection = db[config['mongodb']['collection_name']]
 
 # Initiate App
 app = Flask(__name__)
-
-# Initiate Mongo connection - database name needed in URI
-app.config["MONGO_URI"] = connection_string + database_name
-app.config["MONGO_DBNAME"] = database_name
-mongo = PyMongo(app)
 
 # Initiate API
 api = Api(app)
@@ -33,7 +39,7 @@ class PublicationsList(Resource):
 
       # Query DB
       data = []
-      cursor = mongo.db[collection_name].find({}).sort("date", -1)
+      cursor = collection.find({}).sort("date", -1)
       for doc in cursor:
           data.append(doc)
 
@@ -46,7 +52,7 @@ class PublicationsId(Resource):
     def get(self, doc_id):
 
       # Query DB
-      data = mongo.db[collection_name].find_one({'_id': doc_id})
+      data = collection.find_one({'_id': doc_id})
 
       return {"response": data}
 
@@ -58,7 +64,7 @@ class PublicationsLatest(Resource):
 
       # Query DB
       data = []
-      cursor = mongo.db[collection_name].find({}).sort("date", -1).limit(10)
+      cursor = collection.find({}).sort("date", -1).limit(10)
       for doc in cursor:
           data.append(doc)
 
@@ -86,7 +92,7 @@ class Search(Resource):
 
       # Perform query on DB
       data = []
-      cursor = mongo.db[collection_name].find(args['query'])
+      cursor = collection.find(args['query'])
       for doc in cursor:
           data.append(doc)
 

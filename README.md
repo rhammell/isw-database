@@ -57,12 +57,16 @@ Each publication webpage is parsed to collect its text body and other metadata. 
 
 ## API Access
 
-The `api.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to access the publications data without direct connection to the database itself. 
+The `app.py` script creates a Flask-based REST API that allows for querying the database through HTTP endpoints. This functionality enables clients to access the publications data without direct connection to the database itself. 
 
-Initialize the API server using on the default host and port `localhost:5000` with the following command
+Iniitialize the API using the Flask builtin server on the default host and port `localhost:5000` with the `python3 -m flask run` command. By default this server is only available to the local host it is running on. To make it accessible from external IP addresses set the `host` flag to `0.0.0.0`.
 
 ```bash
-python3 api.py
+# Server available to local host only
+python3 -m flask run
+
+# Server available externally
+python3 -m flask run --host=0.0.0.0
 ```
 
 The following endpoints are availble through the API: 
