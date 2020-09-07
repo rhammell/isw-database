@@ -57,12 +57,12 @@ Each publication webpage is parsed to collect its text body and other metadata. 
 
 ## API Access
 
-The `app.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to access the publications data without direct connection to the database itself. 
+The `api.py` script creates a REST API that allows for querying the database through HTTP endpoints. This functionality enables other applications to access the publications data without direct connection to the database itself. 
 
 Initialize the API server using on the default host and port `localhost:5000` with the following command
 
 ```bash
-python3 app.py
+python3 api.py
 ```
 
 The following endpoints are availble through the API: 
